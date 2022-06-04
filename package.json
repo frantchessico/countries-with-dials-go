@@ -1,0 +1,31 @@
+{
+  "name": "countries-dial",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon src/index.js",
+    "start": "sucrase-node src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SavanaPoint-Developers/countries-with-dial.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SavanaPoint-Developers/countries-with-dial/issues"
+  },
+  "homepage": "https://github.com/SavanaPoint-Developers/countries-with-dial#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.1",
+    "morgan": "^1.10.0",
+    "sucrase": "^3.21.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.16",
+    "typescript": "^4.7.3"
+  }
+}
