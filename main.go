@@ -2,13 +2,13 @@ package main
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
 	"os"
 
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 )
-
-
 
 type Country struct {
 	Name     string `json:"name"`
@@ -17,10 +17,16 @@ type Country struct {
 }
 
 func main() {
+	if err := godotenv.Load(); err != nil {
+        log.Fatalf("Error loading .env file: %v", err)
+    }
 	r := gin.Default()
 
+	// Define a porta padrão
+	port := getPort()
+
 	// Endpoint para retornar o arquivo JSON
-	r.GET("/infos", func(c *gin.Context) {
+	r.GET("/countries-with-dialing-code", func(c *gin.Context) {
 		// Abra e leia o arquivo JSON
 		file, err := os.Open("datas.json")
 		if err != nil {
@@ -29,15 +35,25 @@ func main() {
 		}
 		defer file.Close()
 
-		var datas []Country
+		var countries []Country
 		decoder := json.NewDecoder(file)
-		if err := decoder.Decode(&datas); err != nil {
+		if err := decoder.Decode(&countries); err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 			return
 		}
 
-		c.JSON(http.StatusOK, datas)
+		c.JSON(http.StatusOK, countries)
 	})
 
-	r.Run(":8080")
+	// Inicie o servidor na porta definida
+	r.Run(":" + port)
+}
+
+// getPort obtém a porta da variável de ambiente PORT ou usa uma porta padrão (8080)
+func getPort() string {
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080" // Porta padrão
+	}
+	return port
 }
